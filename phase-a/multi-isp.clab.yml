@@ -1,0 +1,72 @@
+name: multi-isp
+
+mgmt:
+  network: clab-isp-mgmt
+  bridge: clab-isp-mgmt
+  ipv4-subnet: 172.30.30.0/24
+
+topology:
+  kinds:
+    ceos:
+      image: ceos:4.36.0F
+    linux:
+      image: alpine:latest
+
+  nodes:
+    ce1:
+      kind: ceos
+      mgmt-ipv4: 172.30.30.10
+      startup-config: configs/ce1.cfg
+
+    isp_a:
+      kind: ceos
+      mgmt-ipv4: 172.30.30.21
+      startup-config: configs/isp_a.cfg
+
+    isp_b:
+      kind: ceos
+      mgmt-ipv4: 172.30.30.22
+      startup-config: configs/isp_b.cfg
+
+    isp_c:
+      kind: ceos
+      mgmt-ipv4: 172.30.30.23
+      startup-config: configs/isp_c.cfg
+
+    internet:
+      kind: ceos
+      mgmt-ipv4: 172.30.30.100
+      startup-config: configs/internet.cfg
+
+    host1:
+      kind: linux
+      mgmt-ipv4: 172.30.30.111
+      exec:
+        - ip link set eth1 up
+        - ip addr add 10.10.10.11/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.10.10.1
+
+    host2:
+      kind: linux
+      mgmt-ipv4: 172.30.30.112
+      exec:
+        - ip link set eth1 up
+        - ip addr add 10.10.10.12/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.10.10.1
+
+  links:
+    # CE to each ISP
+    - endpoints: ["ce1:eth1", "isp_a:eth1"]
+    - endpoints: ["ce1:eth2", "isp_b:eth1"]
+    - endpoints: ["ce1:eth3", "isp_c:eth1"]
+
+    # CE to internal LAN hosts
+    - endpoints: ["ce1:eth4", "host1:eth1"]
+    - endpoints: ["ce1:eth5", "host2:eth1"]
+
+    # Each ISP to the "internet"
+    - endpoints: ["isp_a:eth2", "internet:eth1"]
+    - endpoints: ["isp_b:eth2", "internet:eth2"]
+    - endpoints: ["isp_c:eth2", "internet:eth3"]
