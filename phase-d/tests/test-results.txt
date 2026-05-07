@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.3, pluggy-1.6.0 -- /home/labadmin/network-lab-phase3/venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/labadmin/multi-isp-lab/tests
+plugins: cov-4.1.0
+collecting ... collected 6 items
+
+test_failover.py::test_baseline_path_is_isp_a PASSED
+test_failover.py::test_baseline_reachability PASSED
+test_failover.py::test_failover_isp_a_to_isp_b 
+  → Failover to isp_b took 0.21s
+PASSED
+test_failover.py::test_cascade_failover_to_isp_c 
+  → Cascade failover to isp_c took 0.21s
+PASSED
+test_failover.py::test_recovery_returns_to_isp_a 
+  → Recovery to isp_a took 2.36s
+PASSED
+test_failover.py::test_bgp_only_shutdown_does_not_break_data_plane PASSED
+
+======================== 6 passed in 111.61s (0:01:51) =========================

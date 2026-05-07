@@ -1,0 +1,62 @@
+testbed:
+  name: multi-isp-edge
+  credentials:
+    default:
+      username: admin
+      password: admin
+    enable:
+      password: admin
+
+devices:
+  ce1:
+    os: eos
+    type: router
+    connections:
+      cli:
+        protocol: ssh
+        ip: 172.30.30.10
+    custom:
+      role: customer-edge
+
+  isp_a:
+    os: eos
+    type: router
+    connections:
+      cli:
+        protocol: ssh
+        ip: 172.30.30.21
+    custom:
+      role: isp
+      tier: premium
+
+  isp_b:
+    os: eos
+    type: router
+    connections:
+      cli:
+        protocol: ssh
+        ip: 172.30.30.22
+    custom:
+      role: isp
+      tier: standard
+
+  isp_c:
+    os: eos
+    type: router
+    connections:
+      cli:
+        protocol: ssh
+        ip: 172.30.30.23
+    custom:
+      role: isp
+      tier: backup
+
+  internet:
+    os: eos
+    type: router
+    connections:
+      cli:
+        protocol: ssh
+        ip: 172.30.30.100
+    custom:
+      role: simulated-internet
