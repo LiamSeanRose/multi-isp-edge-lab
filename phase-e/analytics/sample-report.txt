@@ -1,0 +1,35 @@
+======================================================================
+  MULTI-ISP TRAFFIC COST REPORT
+======================================================================
+  Sample window: 2026-05-07 00:45:24.996293+00:00 → 2026-05-07 00:46:36.397239+00:00
+  Duration: 71 seconds (24 sample rows)
+
+  ISP                          Rate       Observed    Projected/Month
+  ---------------------- ---------- -------------- ------------------
+  Premium Fiber          $ 0.05/GB    0.0126 GB     457.87 GB / $ 22.89
+  LTE Backup             $ 0.50/GB    0.0000 GB       0.05 GB / $  0.02
+  Standard Cable         $ 0.01/GB    0.0000 GB       0.03 GB / $  0.00
+  ---------------------- ---------- -------------- ------------------
+  TOTAL                             $  0.000631   $          22.92
+======================================================================
+
+OPTIMIZATION ANALYSIS
+----------------------------------------------------------------------
+  Cheapest tier: Standard Cable at $0.01/GB
+
+  Premium Fiber → Standard Cable:
+    If 50% of traffic (228.94 GB/mo) moved to Standard Cable,
+    monthly savings: $9.16
+
+  LTE Backup → Standard Cable:
+    If 50% of traffic (0.02 GB/mo) moved to Standard Cable,
+    monthly savings: $0.01
+
+  Recommendations:
+    - Tag bulk/non-latency-sensitive traffic (backups, log shipping,
+      software updates) with a DSCP marking and policy-route via
+      Standard Cable. Use BGP communities + policy-based routing
+      to enforce.
+    - Reserve Premium Fiber for
+      latency-sensitive flows: VoIP, video conferencing, real-time APIs.
+
